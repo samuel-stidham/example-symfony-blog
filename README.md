@@ -11,7 +11,8 @@ It includes seeded dummy data and PHPUnit tests for key routes, controllers, and
 -   Authorization using `#[IsGranted('ROLE_USER')]` attributes
 -   Blog post creation, editing, and deletion
 -   Slug-based routing for clean URLs
--   TailwindCSS styling for a clean modern UI. The UI is a bit ugly right now. Aiming for functionality over aesthetics with the short time I threw this together.
+-   TailwindCSS styling for a clean modern UI.
+-   The UI is intentionally minimal—prioritizing functionality and clean code over polish given the timebox.
 -   Fully tested with PHPUnit and Doctrine’s in-memory SQLite database
 -   File-backed SQLite (`var/test.db`) for stable integration testing
 -   Beautiful home and post pages using Twig templates
