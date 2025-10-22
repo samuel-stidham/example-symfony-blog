@@ -12,6 +12,7 @@ final class HomeControllerTest extends DatabaseTestCase
 {
     public function testHomeLoadsAndShowsPosts(): void
     {
+        /** @var UserPasswordHasherInterface $hasher */
         $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
 
         $user = EntityFactory::user($this->em, $hasher);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/post')]
 final class PostController extends AbstractController
@@ -28,22 +30,37 @@ final class PostController extends AbstractController
 
     #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $em): Response
-    {
+    #[Route('/new', name: 'app_post_new')]
+    public function new(
+        Request $request,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger
+    ): Response {
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(\App\Form\PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setAuthor($this->getUser()); // important
+            $user = $this->getUser();
+            if (!$user instanceof User) {
+                throw $this->createAccessDeniedException();
+            }
+            $post->setAuthor($user);
+
+            if ($post->getSlug() === '') {
+                $post->setSlug(strtolower($slugger->slug($post->getTitle())->toString()));
+            }
+
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
+            return $this->redirectToRoute('app_post_show_slug', [
+                'slug' => $post->getSlug(),
+            ]);
         }
 
         return $this->render('post/new.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

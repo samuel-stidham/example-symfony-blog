@@ -13,6 +13,7 @@ final class PostRepositoryTest extends DatabaseTestCase
 {
     public function testFindBySlug(): void
     {
+        /** @var UserPasswordHasherInterface $hasher */
         $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
         $user = EntityFactory::user($this->em, $hasher);
         $post = EntityFactory::post($this->em, $user, 'Repo Slug', 'Text');

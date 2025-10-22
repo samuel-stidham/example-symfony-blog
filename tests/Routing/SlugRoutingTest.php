@@ -12,6 +12,7 @@ final class SlugRoutingTest extends DatabaseTestCase
 {
     public function testIdAndSlugRoutesCoexist(): void
     {
+        /** @var UserPasswordHasherInterface $hasher */
         $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
         $user = EntityFactory::user($this->em, $hasher);
         $post = EntityFactory::post($this->em, $user, 'Slug Route Test', 'Body');

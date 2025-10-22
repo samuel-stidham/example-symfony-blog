@@ -12,6 +12,7 @@ final class LoginTest extends DatabaseTestCase
 {
     public function testLoginWithValidCredentials(): void
     {
+        /** @var UserPasswordHasherInterface $hasher */
         $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
         EntityFactory::user($this->em, $hasher, 'demo@example.com', 'demo_password');
 
@@ -26,6 +27,9 @@ final class LoginTest extends DatabaseTestCase
         $this->client->followRedirect();
 
         self::assertResponseIsSuccessful();
-        $this->assertStringContainsString('Logout', $this->client->getResponse()->getContent());
+        self::assertStringContainsString(
+            'Logout',
+            (string) $this->client->getResponse()->getContent()
+        );
     }
 }
