@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block title %}New Post{% endblock %}
+{% block body %}
+<div class="bg-white border rounded-xl p-6 shadow-sm">
+  <h1 class="text-2xl font-semibold mb-4">New Post</h1>
+  {% include 'post/_form.html.twig' with {form: form} %}
+</div>
+{% endblock %}

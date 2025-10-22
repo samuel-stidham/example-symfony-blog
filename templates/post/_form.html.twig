@@ -1,0 +1,18 @@
+{{ form_start(form, { attr: { class: 'space-y-4' } }) }}
+  <div>
+    {{ form_label(form.title, null, { label_attr: { class: 'block text-sm font-medium text-gray-700' } }) }}
+    {{ form_widget(form.title, { attr: { class: 'mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500' } }) }}
+    {{ form_errors(form.title) }}
+  </div>
+
+  <div>
+    {{ form_label(form.content, null, { label_attr: { class: 'block text-sm font-medium text-gray-700' } }) }}
+    {{ form_widget(form.content, { attr: { rows: 10, class: 'mt-1 block w-full rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500' } }) }}
+    {{ form_errors(form.content) }}
+  </div>
+
+  <div class="flex gap-3">
+    <button class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Save</button>
+    <a href="{{ path('app_post_index') }}" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100">Cancel</a>
+  </div>
+{{ form_end(form) }}

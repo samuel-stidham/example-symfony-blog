@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block body %}
+<article class="bg-white border rounded-xl p-6 shadow-sm">
+  <h1 class="text-3xl font-bold">{{ post.title }}</h1>
+
+  <div class="mt-2 text-sm text-gray-500">
+    {{ post.createdAt ? post.createdAt|date('Y-m-d H:i') : '' }}
+    {% if post.updatedAt %} • updated {{ post.updatedAt|date('Y-m-d H:i') }}{% endif %}
+    {% if post.author %} • by {{ post.author.email }}{% endif %}
+  </div>
+
+  <div class="prose max-w-none mt-6">
+    {{ post.content|nl2br }}
+  </div>
+
+  <div class="mt-6 flex gap-3">
+    <a href="{{ path('app_post_index') }}" class="px-3 py-1.5 rounded border border-gray-300 hover:bg-gray-100">Back</a>
+
+    {% if app.user %}
+      <a href="{{ path('app_post_edit', { id: post.id }) }}" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700">Edit</a>
+      <form method="post" action="{{ path('app_post_delete', { id: post.id }) }}" onsubmit="return confirm('Delete this post?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+        <button class="px-3 py-1.5 rounded bg-red-600 text-white hover:bg-red-700">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+</article>
+{% endblock %}

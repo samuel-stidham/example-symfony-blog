@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Symfony Blog{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-900">
+  <!-- NAV -->
+  <header class="border-b bg-white/70 backdrop-blur">
+    <nav class="container mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="{{ path('app_home') }}" class="text-lg font-semibold">My Symfony Blog</a>
+      <div class="flex items-center gap-3">
+        <a href="{{ path('app_post_index') }}" class="text-gray-700 hover:text-gray-900">Posts</a>
+
+        {% if app.user %}
+          <span class="hidden sm:inline text-sm text-gray-600">Hi, {{ app.user.email }}</span>
+          <a href="{{ path('app_post_new') }}" class="inline-block px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700">+ New Post</a>
+          <a href="{{ path('app_logout') }}" class="inline-block px-3 py-1.5 rounded border border-gray-300 hover:bg-gray-100">Logout</a>
+        {% else %}
+          <a href="{{ path('app_login') }}" class="inline-block px-3 py-1.5 rounded bg-gray-800 text-white hover:bg-black">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  <!-- FLASHES -->
+  <div class="container mx-auto max-w-5xl px-4 mt-4 space-y-2">
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="rounded border px-4 py-3
+          {% if label == 'success' %}border-green-300 bg-green-50 text-green-800
+          {% elseif label == 'error' %}border-red-300 bg-red-50 text-red-800
+          {% else %}border-gray-300 bg-white text-gray-800{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  <!-- MAIN -->
+  <main class="container mx-auto max-w-5xl px-4 py-8">
+    {% block body %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto border-t bg-white">
+    <div class="container mx-auto max-w-5xl px-4 py-6 text-sm text-gray-500">
+      Built with Symfony · Doctrine · Twig · Tailwind
+    </div>
+  </footer>
+
+  {% block javascripts %}{% endblock %}
+</body>
+</html>
