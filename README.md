@@ -41,7 +41,7 @@ npm run build:css
 cp .env .env.local
 ```
 
-⚠️ **Never commit .env, .env.local, or .env.test files to source control. This repository only has .env files because it's a portfolio sample. It does not use real data.**
+⚠️ **Never commit .env, .env.local, or .env.test files to source control. See the below disclaimer for why I included them in this repository.**
 
 3. Initialize the database
 
