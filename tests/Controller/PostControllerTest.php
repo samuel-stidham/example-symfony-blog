@@ -55,7 +55,10 @@ final class PostControllerTest extends DatabaseTestCase
 
         $this->client->request('GET', '/post/' . $post->getSlug());
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString('Hello world, this is a test post.', $this->client->getResponse()->getContent());
+        self::assertStringContainsString(
+            'Hello world, this is a test post.',
+            $this->client->getResponse()->getContent()
+        );
     }
 
     /**

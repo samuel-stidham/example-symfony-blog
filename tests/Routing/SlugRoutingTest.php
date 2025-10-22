@@ -16,10 +16,10 @@ final class SlugRoutingTest extends DatabaseTestCase
         $user = EntityFactory::user($this->em, $hasher);
         $post = EntityFactory::post($this->em, $user, 'Slug Route Test', 'Body');
 
-        $this->client->request('GET', '/post/'.$post->getId());
+        $this->client->request('GET', '/post/' . $post->getId());
         self::assertResponseIsSuccessful();
 
-        $this->client->request('GET', '/post/'.$post->getSlug());
+        $this->client->request('GET', '/post/' . $post->getSlug());
         self::assertResponseIsSuccessful();
     }
 }
